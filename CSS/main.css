@@ -1,10 +1,19 @@
-div.square {
-    width: 100px;
-    height: 100px;
-    background-color: red;
-    margin: 10px;
-    float: left;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px #888888;
-    transition: all 0.5s;
+* {
+    /* margin: 0;
+    padding: 0;
+    box-sizing: border-box; */
+    font-family: 'Gloria Hallelujah', cursive;
 }
+
+body {
+    background-color: #6cb633 !important;
+}
+
+h1.title {
+    font-size: 70px !important;
+}
+
+#game-container canvas{
+    border :5px solid black;
+}
+

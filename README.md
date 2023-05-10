@@ -7,4 +7,10 @@ A platformer based game created using Phaser.
 ATTRIBUTIONS (credit where credit is due):
 
 Full Screen Icon : 
- [Markdown link syntax](https://www.flaticon.com/free-icons/fullscreen) - Fullscreen icons created by afif fudin
+[Markdown link syntax](https://www.flaticon.com/authors/afif-fudin)
+
+Pause Icon :
+[Markdown link syntax](https://www.flaticon.com/authors/kiranshastry)
+
+Play Icon :
+[Markdown link syntax](https://www.freepik.com/)
