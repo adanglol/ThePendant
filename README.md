@@ -14,3 +14,6 @@ Pause Icon :
 
 Play Icon :
 [Markdown link syntax](https://www.freepik.com/)
+
+Pendant Icon :
+[Markdown link syntax](https://hotpot.ai/art-generator)
