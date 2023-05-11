@@ -23,6 +23,7 @@ function addFullscreenButton(scene) {
   }
 
 
+
 class Menu extends Phaser.Scene {
     constructor() {
       super('Menu');
@@ -230,13 +231,7 @@ class Menu extends Phaser.Scene {
 
       // add keyboard controls for continuous movement left and right
       this.cursors = this.input.keyboard.createCursorKeys();
-      // add keyboard controls for jumping
-      const spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-      spacebar.on('down', () => {
-        if (this.player.body.touching.down) {
-          this.player.setVelocityY(-320);
-        }
-      })
+      
 
     }
     update(){
