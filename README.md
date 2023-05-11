@@ -17,3 +17,7 @@ Play Icon :
 
 Pendant Icon :
 [Markdown link syntax](https://hotpot.ai/art-generator)
+
+-------------------------------------------------
+
+## Click here to play the game: [The Pendant](https://adanglol.github.io/ThePendant/)
