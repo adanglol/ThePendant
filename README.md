@@ -1,6 +1,14 @@
 # ThePendant
 A platformer based game created using Phaser.
 
+-------------------------------------------------
+
+
+
+
+
+-------------------------------------------------
+
 
 [Markdown link syntax](https://www.markdownguide.org/basic-syntax/#links)
 
@@ -15,7 +23,7 @@ Pause Icon :
 Play Icon :
 [Markdown link syntax](https://www.freepik.com/)
 
-Pendant Icon :
+Pendant Icon and Button Icon:
 [Markdown link syntax](https://hotpot.ai/art-generator)
 
 -------------------------------------------------

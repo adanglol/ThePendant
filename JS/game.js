@@ -36,10 +36,14 @@ class Menu extends Phaser.Scene {
       this.load.image('pause', 'lib/assets/pause.png');
       this.load.image('play', 'lib/assets/play.png'); 
       // Font for menu
+      // Pendant 
+      this.load.image('pendant', 'lib/assets/pendant.png');
       this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
   
     create() {
+        // Add background
+        this.cameras.main.setBackgroundColor('#A9A9A9');
         WebFont.load({
           google: {
             families: ['Gloria Hallelujah'],
@@ -47,7 +51,8 @@ class Menu extends Phaser.Scene {
           active: () => {
             const centerX = this.game.config.width / 2;
             const centerY = this.game.config.height / 2;
-            const titleText = this.add.text(centerX - 300,0, 'The Pendant ', { fontSize: '60px', fill: '#000' , fontFamily: 'Gloria Hallelujah'})
+            this.add.image(centerX, centerY - 50, 'pendant').setScale(0.4);
+            const titleText = this.add.text(centerX - 200,0, 'The Pendant ', { fontSize: '60px', fill: '#000' , fontFamily: 'Gloria Hallelujah'})
             titleText.alpha = 0;
             this.tweens.add({
               targets: titleText,
@@ -55,21 +60,24 @@ class Menu extends Phaser.Scene {
               duration: 2000,
               ease: 'Power2',
               onComplete: () => {
-                let start = this.add.text(40, 250, 'Start', { fontFamily: 'Gloria Hallelujah', fontSize: '42px', fill: '#000' });
+                let start = this.add.text(200, 400, 'Press Space to Start', { fontFamily: 'Gloria Hallelujah', fontSize: '40px', fill: '#000' });
                 start.alpha = 0;
+                
                 this.tweens.add({
                   targets: start,
                   alpha: 1,
-                  duration: 2000,
+                  duration: 1000,
                   ease: 'Power2',
-                  onComplete: () => {
-                    start.setInteractive();
-                    start.on('pointerup', () => {
-                      console.log('Start')
-                      this.scene.start('MyGame');
-                    });
-                  }
+                  yoyo: true,
+                  repeat: -1,
                 });
+
+                const spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+                spacebar.on('down', () => {
+                  start.destroy();
+                  this.scene.start('MyGame');
+                });
+
               }
             });
           },
@@ -95,6 +103,9 @@ class Menu extends Phaser.Scene {
       this.load.image('pendant', 'lib/assets/pendant.png');
       this.load.image('door', 'lib/assets/door.png');
       this.load.image('button', 'lib/assets/button.png');
+
+      // my character
+      this.load.image('knight', 'lib/assets/knight.png');
       // ... other assets ...
     }
     create() {
@@ -129,12 +140,17 @@ class Menu extends Phaser.Scene {
       super({ key: 'GameplayScene1' });
     }
     create(){
+     
       // Add background
       this.background = this.add.image(0, 0, 'background', 0);
       this.background.setScale(.8);
       // Add fullscreen button
       addFullscreenButton(this);
+      // Text controls
+      this.add.text(10,200, '⬆️ - Jump', { fontSize: '32px', fill: '#fff', fontFamily: 'Gloria Hallelujah' });
 
+      this.add.text(10, 250, '↔️ - Left and Right', { fontSize: '32px', fill: '#fff', fontFamily: 'Gloria Hallelujah' });
+      
 
       // Create a static group
       this.platforms = this.physics.add.staticGroup();
@@ -148,55 +164,47 @@ class Menu extends Phaser.Scene {
       // Create a platform as a rectangle and add it to the group
       // (x, y, width, height, color)
       // red
-      let platform1 = this.add.rectangle(400, 400, 100, 20, 0xFF0000);
+      let platform1 = this.add.rectangle(400, 400, 100, 20,  0x333333);
       this.physics.add.existing(platform1, true);
       platform1.body.immovable = true;
       this.platforms.add(platform1);
       // Create a platform as a rectangle and add it to the group
       // pink
-      let platform2 = this.add.rectangle(700, 450, 100, 20, 0xf000f0);
+      let platform2 = this.add.rectangle(700, 450, 100, 20,  0x333333);
       this.physics.add.existing(platform2, true);
       platform2.body.immovable = true;
       this.platforms.add(platform2);
       // Create a platform as a rectangle and add it to the group - green
       // light green
-      let platform3 = this.add.rectangle(200, 500, 200, 20, 0x00ff00);
+      let platform3 = this.add.rectangle(200, 500, 200, 20,  0x333333);
       this.physics.add.existing(platform3, true);
       platform3.body.immovable = true;
       this.platforms.add(platform3);
       // Create a platform as a rectangle and add it to the group
       // darl blue
-      let platform4 = this.add.rectangle(450, 200, 100, 20, 0x0000ff);
+      let platform4 = this.add.rectangle(450, 200, 100, 20,  0x333333);
       this.physics.add.existing(platform4, true);
       platform4.body.immovable = true;
       this.platforms.add(platform4);
       // Create a platform as a rectangle and add it to the group
-      let platform5 = this.add.rectangle(700, 250, 100, 20, 0x00ffff);
+      let platform5 = this.add.rectangle(700, 250, 100, 20,  0x333333);
       this.physics.add.existing(platform5, true);
       platform5.body.immovable = true;
       this.platforms.add(platform5);
       // Create a platform as a rectangle and add it to the group
-      let platform6 = this.add.rectangle(800, 350, 100, 20, 0x0f4f00);
+      let platform6 = this.add.rectangle(800, 350, 100, 20,  0x333333);
       this.physics.add.existing(platform6, true);
       platform6.body.immovable = true;
       this.platforms.add(platform6);
 
 
-
+      // door
       this.door = this.add.image(200, 120, 'door').setScale(.5);
       this.physics.add.existing(this.door, true);
       this.door.body.immovable = true;
       this.door.setVisible(false);
       this.door.body.enable = false;
-      // this.platforms.add(door);
-
-      //final platform - door
-      // this.platform7 = this.add.rectangle(150, 200, 100, 20, 0x000f00);
-      // this.physics.add.existing(this.platform7, true);
-      // this.platform7.body.immovable = true;
-      // // this.platform7.setVisible(false);
-      // this.platform7.body.enable = false;
-      // this.platforms.add(this.platform7);
+    
 
       // pendant
       this.pendant = this.physics.add.sprite(game.config.width - 50, 530, 'pendant');
@@ -214,20 +222,15 @@ class Menu extends Phaser.Scene {
       this.pendant.body.setOffset(45, 45);
   
       // player
-      let playerSprite = this.add.graphics();
-      playerSprite.fillStyle(0x0000ff);
-      playerSprite.fillRect(0, 0, 50, 50);
-      playerSprite.generateTexture('player', 50, 50);
-      playerSprite.destroy();
-      this.player = this.physics.add.sprite(20,500,'player');
-      this.player.setScale(.4,1.5);
+      this.player = this.physics.add.sprite(20, 500, 'knight');
+      this.player.setScale(.4, .4);
+      this.player.setSize(100, 200);
+      this.player.setCollideWorldBounds(true);
+      this.player.setGravityY(10);
       this.physics.add.existing(this.player, true);
-      this.player.body.setCollideWorldBounds(true);
-      // so player does not fall
       this.physics.add.collider(this.player, this.platforms);
       this.physics.add.collider(this.player, this.pendant, this.collectPendant, null, this);
       this.physics.add.collider(this.player, this.door, this.goNext, null, this);
-
 
       // add keyboard controls for continuous movement left and right
       this.cursors = this.input.keyboard.createCursorKeys();
@@ -271,11 +274,24 @@ class Menu extends Phaser.Scene {
       super('transition2');
     }
     create(){
-      this.add.text(100, 100, 'You have collected the pendant!', { fontSize: '32px', fill: '#000', fontFamily: 'Arial' });
-      this.add.text(100, 200, 'Now you can go through the door!', { fontSize: '32px', fill: '#000' });
-      this.add.text(100, 300, 'Press the spacebar to continue', { fontSize: '32px', fill: '#FFF' });
+      this.cameras.main.setBackgroundColor('#A9A9A9');
+
+      this.add.text(100, 100, 'Looks like you found a pendant!', { fontSize: '32px', fill: '#000', fontFamily: 'Gloria Hallelujah' });
+      this.add.text(100, 200, 'Then suddenly a door appeared', { fontSize: '32px', fill: '#000' ,fontFamily: 'Gloria Hallelujah'});
+      let contText = this.add.text(100, 400, 'Press the spacebar to continue', { fontSize: '32px', fill: '#000' ,fontFamily: 'Gloria Hallelujah'});
+
+      this.tweens.add({
+        targets: contText,
+        alpha: 0,
+        duration: 1000,
+        ease: 'Linear',
+        repeat: -1,
+        yoyo: true
+      })
       const spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       spacebar.on('down', () => {
+        contText.alpha = 0;
+        this.tweens.killAll();
         this.scene.start('GameplayScene2');
       })
     }
@@ -287,6 +303,8 @@ class Menu extends Phaser.Scene {
       super('GameplayScene2');
     }
     create(){
+      this.cameras.main.setBackgroundColor('#A9A9A9');
+
       // add fullscreen button
       addFullscreenButton(this);
       // adding platforms
@@ -301,19 +319,22 @@ class Menu extends Phaser.Scene {
       this.door.body.immovable = true;
       this.door.setVisible(true);
       this.door.body.enable = true;
-      let playerSprite = this.add.graphics();
-      playerSprite.fillStyle(0x0000ff);
-      playerSprite.fillRect(0, 0, 50, 50);
-      playerSprite.generateTexture('player', 50, 50);
-      playerSprite.destroy();
-      this.player = this.physics.add.sprite(20,500,'player');
-      this.player.setScale(.4,1.5);
+
+      this.add.text(100, 100, 'Try clicking!', { fontSize: '32px', fill: '#000' ,fontFamily: 'Gloria Hallelujah'});
+
+
+      // player
+      this.player = this.physics.add.sprite(20, 500, 'knight');
+      this.player.setScale(.4, .4);
+      this.player.setSize(100, 200);
+      this.player.setCollideWorldBounds(true);
+      this.player.setGravityY(10);
       this.physics.add.existing(this.player, true);
-      this.player.body.setCollideWorldBounds(true);
-      // so player does not fall
       this.physics.add.collider(this.player, this.platforms);
-      // take us to next scene or level
-      this.physics.add.collider(this.player,this.door, this.goNext, null, this)
+      this.physics.add.collider(this.player, this.pendant, this.collectPendant, null, this);
+      this.physics.add.collider(this.player, this.door, this.goNext, null, this);
+     
+
       // add keyboard controls for continuous movement left and right
       this.cursors = this.input.keyboard.createCursorKeys();
       // Create Pendent
@@ -366,14 +387,26 @@ class Menu extends Phaser.Scene {
       super('transition3');
     }
     create(){
-      this.add.text(100, 100, 'You have collected the pendant!', { fontSize: '32px', fill: '#000', fontFamily: 'Arial' });
-      this.add.text(100, 200, 'Now you can go through the door!', { fontSize: '32px', fill: '#000' });
-      this.add.text(100, 300, 'Press the spacebar to continue', { fontSize: '32px', fill: '#FFF' });
+      this.cameras.main.setBackgroundColor('#A9A9A9');
+      this.add.text(100, 100, 'This pendant? Doors? What is going on?', { fontSize: '32px', fill: '#000', fontFamily: 'Gloria Hallelujah' });
+      let contText = this.add.text(100, 400, 'Press the spacebar to continue', { fontSize: '32px', fill: '#000' ,fontFamily: 'Gloria Hallelujah'});
+
+      this.tweens.add({
+        targets: contText,
+        alpha: 0,
+        duration: 1000,
+        ease: 'Linear',
+        repeat: -1,
+        yoyo: true
+      })
       const spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       spacebar.on('down', () => {
+        contText.alpha = 0;
+        this.tweens.killAll();
         this.scene.start('GameplayScene3');
+      })
 
-       })
+      
     }
 }
   class GameplayScene3 extends Phaser.Scene {
@@ -382,6 +415,10 @@ class Menu extends Phaser.Scene {
       super('GameplayScene3');
     }
     create(){
+        this.cameras.main.setBackgroundColor('#A9A9A9');
+        this.add.text(100, 100, 'Try clicking!', { fontSize: '32px', fill: '#000' ,fontFamily: 'Gloria Hallelujah'});
+
+
         // add fullscreen button
         addFullscreenButton(this);
         // adding platforms
@@ -407,16 +444,22 @@ class Menu extends Phaser.Scene {
         this.button.body.setCircle(30);
         // Set the hitbox offset from the top of the sprite to the bottom of the hitbox
         this.button.body.setOffset(10,10);
-        // player sprite
-        let playerSprite = this.add.graphics();
-        playerSprite.fillStyle(0x0000ff);
-        playerSprite.fillRect(0, 0, 50, 50);
-        playerSprite.generateTexture('player', 50, 50);
-        playerSprite.destroy();
-        this.player = this.physics.add.sprite(20,500,'player');
-        this.player.setScale(.4,1.5);
+     
+        this.player = this.physics.add.sprite(20, 500, 'knight');
+        this.player.setScale(.4, .4);
+        this.player.setSize(100, 200);
+        this.player.setCollideWorldBounds(true);
+        this.player.setGravityY(10);
         this.physics.add.existing(this.player, true);
-        this.player.body.setCollideWorldBounds(true);      
+        this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.player, this.pendant, this.collectPendant, null, this);
+        this.physics.add.collider(this.player, this.door, this.goNext, null, this);
+        
+        
+
+
+
+
         const THROW_SPEED = 600; // Define the speed at which the projectile will be thrown
         this.pendant = this.add.sprite(-100,-100, 'pendant');
         this.pendant.setScale(.2);
@@ -482,8 +525,12 @@ class Menu extends Phaser.Scene {
     }
     create(){
       console.log('transitionEnd');
-      this.add.text(100,100, 'Thanks for playing', {fontSize: '50px', fill: '#000000'});
-      this.add.text(100, 300, 'Press the spacebar to Menu', { fontSize: '32px', fill: '#FFF' });
+      this.cameras.main.setBackgroundColor('#A9A9A9');
+
+      this.add.text(100,100, 'Thanks for playing', { fontSize: '32px', fill: '#000', fontFamily: 'Gloria Hallelujah' });
+      this.add.text(100,200, 'Guess well have to wait what lies in store', { fontSize: '32px', fill: '#000', fontFamily: 'Gloria Hallelujah' });
+
+      this.add.text(100, 300, 'Press the spacebar to Menu', { fontSize: '32px', fill: '#000', fontFamily: 'Gloria Hallelujah' });
       const spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
       spacebar.on('down', () => {
         location.reload();
@@ -503,14 +550,15 @@ class Menu extends Phaser.Scene {
       default: 'arcade',
       arcade: {
         gravity: { y: 500 },
-        debug: true,
+        debug: false,
       },
     },
     style : {
       border : '10px solid black'
     },
-    scene: [Menu,MyGame],
+    scene: [Menu, MyGame],
     backgroundColor: '#8fffff',
   };
   const game = new Phaser.Game(config);
   
+  // MyGame,Menu
